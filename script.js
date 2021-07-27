@@ -41,12 +41,26 @@ function game() {
         if (results.includes("win")) {++playerScore;}
         else if (results.includes("lose")) {++computerScore;}
         else {}
-        
         ++roundNum;
+
         let scoreBoard = document.querySelector("#scoreBoard");
-        scoreBoard.textContent = `${}`;
+        scoreBoard.textContent = `${playerScore} - ${computerScore}`;
         let roundResults = document.querySelector("#roundResults");
         roundResults.textContent =  `Round ${roundNum}: ${results}`;
+        finalResults();
+    }
+
+    function finalResults() {
+        if (playerScore === 5 || computerScore === 5) {
+            console.log(`Scores (You vs Com): ${playerScore} - ${computerScore}`);
+            if (playerScore > computerScore) {console.log("You won RPS!)");}
+            else if (computerScore > playerScore) {console.log("You lost RPS?!");}
+            else {console.log("You and the computer tied.");}
+
+            buttons.forEach(button => {
+                button.setAttribute("disabled", "disabled");
+            });
+        }
     }
 
     let playerScore = computerScore = roundNum = 0;
@@ -57,14 +71,6 @@ function game() {
             printResults(playRound(button.id, computerSelection));
         });
     });
-
-    if (playerScore === 5 || computerScore === 5) {
-        console.log(`Scores (You vs Com): ${playerScore} - ${computerScore}`);
-        if (playerScore > computerScore) {console.log("You won RPS!)");}
-        else if (computerScore > playerScore) {console.log("You lost RPS?!");}
-        else {console.log("You and the computer tied.");}
-    }
-    playerScore.onchange()
 }
 
 game();
