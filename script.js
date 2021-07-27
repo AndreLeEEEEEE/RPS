@@ -36,5 +36,24 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-const playerSelection = prompt("Make your move");
-const computerSelection = computerPlay();
+function game() {  // First to 5 points
+    let playerScore = computerScore = 0;
+    let round = 1;
+    while (playerScore + computerScore < 5) {
+        const playerSelection = prompt("Make your move");
+        const computerSelection = computerPlay();
+        let results = playRound(playerSelection, computerSelection);
+        if (results.includes("win")) {++playerScore;}
+        else if (results.includes("lose")) {++computerScore;}
+        else if (results.includes("tie")) {}
+        else {continue;}
+        console.log(`Round ${round}: ${results}`);
+        ++round;
+    }
+    console.log(`Scores (You vs Com): ${playerScore} - ${computerScore}`);
+    if (playerScore > computerScore) {console.log("You won RPS!)");}
+    else if (computerScore > playerScore) {console.log("You lost RPS?!");}
+    else {console.log("You and the computer tied.");}
+}
+
+game();
