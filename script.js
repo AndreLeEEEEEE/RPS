@@ -24,7 +24,7 @@ function playRound(playerSelection, computerSelection) {
     }
     else if (playerSelection === "Scissors") {
         result = computerSelection === "Paper" ?
-                "You win!" : "you lose!";
+                "You win!" : "You lose!";
     }
     else {return "Invalid";}
 
@@ -36,24 +36,35 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-function game() {  // First to 5 points
-    let playerScore = computerScore = 0;
-    let round = 1;
-    while (playerScore + computerScore < 5) {
-        const playerSelection = prompt("Make your move");
-        const computerSelection = computerPlay();
-        let results = playRound(playerSelection, computerSelection);
+function game() {
+    function printResults(results) {
         if (results.includes("win")) {++playerScore;}
         else if (results.includes("lose")) {++computerScore;}
-        else if (results.includes("tie")) {}
-        else {continue;}
-        console.log(`Round ${round}: ${results}`);
-        ++round;
+        else {}
+        
+        ++roundNum;
+        let scoreBoard = document.querySelector("#scoreBoard");
+        scoreBoard.textContent = `${}`;
+        let roundResults = document.querySelector("#roundResults");
+        roundResults.textContent =  `Round ${roundNum}: ${results}`;
     }
-    console.log(`Scores (You vs Com): ${playerScore} - ${computerScore}`);
-    if (playerScore > computerScore) {console.log("You won RPS!)");}
-    else if (computerScore > playerScore) {console.log("You lost RPS?!");}
-    else {console.log("You and the computer tied.");}
+
+    let playerScore = computerScore = roundNum = 0;
+    const buttons = document.querySelectorAll("button");
+    buttons.forEach(button => {
+        button.addEventListener('click', function() {
+            const computerSelection = computerPlay();
+            printResults(playRound(button.id, computerSelection));
+        });
+    });
+
+    if (playerScore === 5 || computerScore === 5) {
+        console.log(`Scores (You vs Com): ${playerScore} - ${computerScore}`);
+        if (playerScore > computerScore) {console.log("You won RPS!)");}
+        else if (computerScore > playerScore) {console.log("You lost RPS?!");}
+        else {console.log("You and the computer tied.");}
+    }
+    playerScore.onchange()
 }
 
 game();
